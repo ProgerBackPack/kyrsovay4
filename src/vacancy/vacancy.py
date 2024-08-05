@@ -84,28 +84,36 @@ class Vacancy:
         :return: (list[object, ...) список объектов
         """
         list_vacancies = []
-        try:
-            for el in vacancies:
-                if el.get("salary"):
-                    list_vacancies.append(cls(el.get("name"),
-                                              el.get("area").get("name"),
-                                              el.get("salary").get("from"),
-                                              el.get("salary").get("to"),
-                                              get_currency_transfer(el.get("salary").get("currency")),
-                                              el.get("snippet").get("requirement"),
-                                              el.get("alternate_url")
-                                              ))
+        # try:
+        for vacancy in vacancies:
+            name = cls.check_data_str(vacancy['name'])
+            if vacancy.get('salary'):
+                salary_from = cls.check_data_int(vacancy.get('salary').get('from'))
+                salary_to = cls.check_data_int(vacancy.get('salary').get('to'))
+                currency = cls.check_data_str(get_currency_transfer(vacancy['salary']['currency']))
 
-                else:
-                    list_vacancies.append(cls(el.get("name"),
-                                              el.get("area").get("name"),
-                                              0,
-                                              0,
-                                              None,
-                                              el.get("snippet").get("requirement"),
-                                              el.get("alternate_url")
-                                              ))
-        except TypeError:
-            pass
+            else:
+                salary_from = 0
+                salary_to = 0
+                currency = ''
+            city = cls.check_data_str(vacancy['area']['name'])
+            requirements = cls.check_data_str(vacancy['snippet']['requirement'])
+            link = cls.check_data_str(vacancy['alternate_url'])
+
+            list_vacancies.append(cls(name, city, salary_from, salary_to, currency, requirements, link))
 
         return list_vacancies
+
+    @staticmethod
+    def check_data_str(value):
+        "Валидатор для строковых значений "
+        if value:
+            return value
+        return 'информация не найдена'
+
+    @staticmethod
+    def check_data_int(value):
+        "Валидатор для числовых значений "
+        if value:
+            return value
+        return 0

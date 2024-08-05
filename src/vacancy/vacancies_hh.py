@@ -8,13 +8,14 @@ class VacanciesHH(WorkWithAPIService):
     Класс реализует подключение к сервисам поиска вакансий
     """
 
-    def connect_to_api(self) -> int:
+    def __connect_to_api(self) -> int:
         """
         Функция реализует подключение к сервису hh.ru
         возвращает статус подключения к сервису
 
         :return: (int) статус подключения
         """
+
         response = requests.get("https://api.hh.ru/vacancies")
 
         return response.status_code
@@ -35,8 +36,8 @@ class VacanciesHH(WorkWithAPIService):
         :return: (str) файл json
         """
         try:
-            if self.connect_to_api() != 200:
-                raise NameError(f"\nОшибка подключения статус ошибки {self.connect_to_api()} ...")
+            if self.__connect_to_api() != 200:
+                raise NameError(f"\nОшибка подключения статус ошибки {self.__connect_to_api()} ...")
 
             else:
                 if param:
