@@ -7,6 +7,9 @@ class WorkJSON(WorkWithFile):
     """
     Класс для работы с JSON файлом
     """
+    def __init__(self, filename):
+        self.filename = filename
+
     def add_vacancies(self, file: list[object, ...]) -> None:
         """
         Функция принимает список объектов класса
@@ -38,14 +41,14 @@ class WorkJSON(WorkWithFile):
                 }
                 list_vacancies.append(vacancies)
 
-        with open("./data/hh_vacancies.json", "w", encoding="utf8") as f:
+        with open(f"./data/{self.filename}.json", "w", encoding="utf8") as f:
             json.dump(list_vacancies, f, ensure_ascii=False, indent=4)
 
     def print_vacancies(self) -> None:
         """
         Функция печатает файл JSON который есть в файле
         """
-        with open("./data/hh_vacancies.json") as f:
+        with open(f"./data/{self.filename}.json") as f:
             f = json.dumps(json.load(f), ensure_ascii=False, indent=4)
             print(f)
 
@@ -53,5 +56,5 @@ class WorkJSON(WorkWithFile):
         """
         Функция удаляет содержимое файла JSON
         """
-        with open("./data/hh_vacancies.json") as f:
+        with open(f"./data/{self.filename}.json") as f:
             pass

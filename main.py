@@ -9,7 +9,7 @@ def user_interaction() -> None:
     """
     Функция для работы с пользователем
     """
-    print("Добро пожаловать на платформу HeadHunter")
+    print("Добро пожаловать, на платформу HeadHunter")
     search_query = input("Введите поисковой запрос: ")
     top_n = input("Введите количество вакансий для вывода в топ N: ")
     filter_word = (input("Введите ключевые слова для фильтрации вакансий через \",\": "))
@@ -20,8 +20,9 @@ def user_interaction() -> None:
     hh_vacancies = hh_api.get_vacancies(search_query)
 
     vacancies_list = Vacancy.cast_to_object_list(hh_vacancies)
+    filename = input('Введите название файла для сохранения: ')
 
-    save_json = WorkJSON()
+    save_json = WorkJSON(filename)
     save_json.add_vacancies(vacancies_list)
     save_json.del_vacancies()
 
